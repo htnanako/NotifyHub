@@ -77,6 +77,174 @@ services:
 
 ---
 
+## 使用说明
+
+### 通知通道 API 调用方式
+
+NotifyHub 支持通过多种方式调用 API 进行消息推送。
+
+#### 1. 通用 JSON API
+
+- **接口地址**：`http://<你的站点地址>/api/service/notify`
+- **请求方式**：POST
+- **Content-Type**：application/json
+
+**请求体示例：**
+
+```json
+{
+  "route_id": "你的通道ID",
+  "title": "测试标题",
+  "content": "这是一条测试内容",
+  "push_img_url": "https://example.com/test.jpg",
+  "push_link_url": "https://example.com"
+}
+```
+
+**参数说明：**
+
+| 参数名         | 说明                 | 必填 |
+| -------------- | -------------------- | ---- |
+| route_id       | 通道ID，指定推送通道 | 是   |
+| title          | 通知标题             | 是   |
+| content        | 通知内容             | 是   |
+| push_img_url   | 图片URL（可选）      | 否   |
+| push_link_url  | 跳转链接（可选）     | 否   |
+
+---
+
+#### 2. cURL 调用示例
+
+```bash
+curl -X POST 'http://<你的站点地址>/api/service/notify' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "route_id": "你的通道ID",
+    "title": "测试标题",
+    "content": "这是一条测试内容",
+    "push_img_url": "https://example.com/test.jpg",
+    "push_link_url": "https://example.com"
+  }'
+```
+
+---
+
+#### 3. Python 调用示例
+
+```python
+import requests
+
+url = "http://<你的站点地址>/api/service/notify"
+data = {
+    "route_id": "你的通道ID",
+    "title": "测试标题",
+    "content": "这是一条测试内容",
+    "push_img_url": "https://example.com/test.jpg",
+    "push_link_url": "https://example.com"
+}
+headers = {"Content-Type": "application/json"}
+
+response = requests.post(url, json=data, headers=headers)
+print(response.status_code)
+print(response.text)
+```
+
+---
+
+#### 4. Bark 兼容接口
+
+- **接口地址**：`http://<你的站点地址>/api/service/notify/<route_id>/<title>/<content>`
+- **请求方式**：GET 或 POST
+- **Content-Type**：application/json（POST 时）
+
+**POST 请求体（可选）：**
+
+```json
+{
+  "push_img_url": "https://example.com/test.jpg",
+  "push_link_url": "https://example.com"
+}
+```
+
+---
+
+## 通知模板
+
+NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下的消息格式。通过模板功能，你可以为不同的通知通道、不同类型的事件，设置专属的标题和内容格式，实现消息的个性化和自动化。
+
+### 功能说明
+
+- **模板类型**：支持普通通知模板和 Emby 专用模板（如媒体添加、播放开始、播放停止等）。
+- **模板变量**：模板内容支持[Jinja2](https://docs.jinkan.org/docs/jinja2/)模板语言，使用变量占位，推送时会自动替换为实际数据。例如：`{{user}}`、`{{item_name}}`、`{{time}}` 等。
+- **适用范围**：每个通知通道可绑定一个或多个模板，推送时自动匹配对应模板。
+
+---
+
+### 模板样例
+
+#### Emby 消息通知模板举例
+
+- Emby开始播放
+```jinja2
+{{user}}开始播放 {{title}}{%if year%}({{year}}){%endif%}
+```
+```jinja2
+{%if progress_text%}{{progress_text}}
+{%endif%}{{container}} · {{video_stream_title}}
+⤷{{transcoding_info}} {{bitrate}}Mbps{%if current_cpu%}
+⤷CPU消耗：{{current_cpu}}%{%endif%}
+来自：{{server_name}}
+大小：{{size}}
+设备：{{client}} · {{device_name}}{%if genres%}
+风格：{{genres}}{%endif%}{%if intro%}
+简介：{{intro}}{%endif%}
+```
+
+- Emby停止播放
+```jinja2
+{{user}}停止播放 {{title}}{%if year%}({{year}}){%endif%}
+```
+```jinja2
+{%if progress_text%}{{progress_text}}
+{%endif%}{{container}} · {{video_stream_title}}
+⤷{{transcoding_info}} {{bitrate}}Mbps{%if current_cpu%}
+⤷CPU消耗：{{current_cpu}}%{%endif%}
+来自：{{server_name}}
+大小：{{size}}
+设备：{{client}} · {{device_name}}{%if genres%}
+风格：{{genres}}{%endif%}{%if intro%}
+简介：{{intro}}{%endif%}
+```
+
+- Emby电影新增
+```jinja2
+🍟 新片入库： {{title}} {%if release_year%}({{release_year}}){%endif%}
+```
+```jinja2
+🍟 {{server_name}}
+入库时间: {{created_at}}{%if genres%}
+
+风格：{{genres}}{%endif%}
+大小：{{size}}{%if intro%}
+简介：{{intro}}{%endif%}
+```
+
+- Emby剧集新增
+```jinja2
+📺 新片入库： {{title}}
+```
+```jinja2
+📺 {{server_name}}
+入库时间: {{created_at}}
+{%if episode_title%}
+单集标题：{{episode_title}}{%endif%}{%if series_genres%}
+风格：{{series_genres}}{%endif%}
+大小：{{size}}{%if intro%}
+简介：{{intro}}{%endif%}
+```
+---
+
+
 ## 其他说明
 
 - **数据持久化**：请务必挂载 `data/` 目录，避免数据丢失。
