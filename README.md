@@ -190,9 +190,8 @@ NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下�
 ```
 ```jinja2
 {%if progress_text%}{{progress_text}}
-{%endif%}{{container}} · {{video_stream_title}}
-⤷{{transcoding_info}} {{bitrate}}Mbps{%if current_cpu%}
-⤷CPU消耗：{{current_cpu}}%{%endif%}
+{%endif%}{{container}}
+⤷{{transcoding_info}} {{bitrate}}Mbps
 来自：{{server_name}}
 大小：{{size}}
 设备：{{client}} · {{device_name}}{%if genres%}
@@ -206,9 +205,8 @@ NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下�
 ```
 ```jinja2
 {%if progress_text%}{{progress_text}}
-{%endif%}{{container}} · {{video_stream_title}}
-⤷{{transcoding_info}} {{bitrate}}Mbps{%if current_cpu%}
-⤷CPU消耗：{{current_cpu}}%{%endif%}
+{%endif%}{{container}}
+⤷{{transcoding_info}} {{bitrate}}Mbps
 来自：{{server_name}}
 大小：{{size}}
 设备：{{client}} · {{device_name}}{%if genres%}
