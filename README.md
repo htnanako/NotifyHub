@@ -190,8 +190,9 @@ NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下�
 ```
 ```jinja2
 {%if progress_text%}{{progress_text}}
-{%endif%}{{container}}
-⤷{{transcoding_info}} {{bitrate}}Mbps
+{%endif%}{{container}} · {{video_stream_title}}
+⤷{{transcoding_info}} {{bitrate}}Mbps{%if current_cpu%}
+⤷CPU消耗：{{current_cpu}}%{%endif%}
 来自：{{server_name}}
 大小：{{size}}
 设备：{{client}} · {{device_name}}{%if genres%}
@@ -205,8 +206,9 @@ NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下�
 ```
 ```jinja2
 {%if progress_text%}{{progress_text}}
-{%endif%}{{container}}
-⤷{{transcoding_info}} {{bitrate}}Mbps
+{%endif%}{{container}} · {{video_stream_title}}
+⤷{{transcoding_info}} {{bitrate}}Mbps{%if current_cpu%}
+⤷CPU消耗：{{current_cpu}}%{%endif%}
 来自：{{server_name}}
 大小：{{size}}
 设备：{{client}} · {{device_name}}{%if genres%}
@@ -239,6 +241,19 @@ NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下�
 风格：{{series_genres}}{%endif%}
 大小：{{size}}{%if intro%}
 简介：{{intro}}{%endif%}
+```
+
+#### PVE 消息通知模板举例
+
+- PVE 消息通知模板
+```jinja2
+{{machine_name}} 备份任务 - {{task_status}}
+```
+```jinja2
+{% for vmid, name, statu, time, size in details %}- ID {{ vmid }} - {{ name }}：{{ size }}，耗时 {{ time }}, 状态 {{ statu }}
+{% endfor %}
+总耗时: {{ total_time }}
+总大小: {{ total_size }}
 ```
 ---
 
