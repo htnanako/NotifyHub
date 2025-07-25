@@ -247,7 +247,7 @@ NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下�
 
 - PVE 备份任务
 ```jinja2
-{{machine_name}} 备份任务 - {{task_status}}
+{{ machine_name }} {{ task_type }} - {{ task_status }}
 ```
 ```jinja2
 {% for vmid, name, statu, time, size in details %}- ID {{ vmid }} - {{ name }}：{{ size }}，耗时 {{ time }}, 状态 {{ statu }}
@@ -255,6 +255,30 @@ NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下�
 总耗时: {{ total_time }}
 总大小: {{ total_size }}
 ```
+
+- PVE 精简任务
+```jinja2
+{{ machine_name }} {{ task_type }} - {{ task_status }}
+```
+```jinja2
+数据存储库：{{ datastore_name }}
+任务编号：{{ job_id }}
+```
+
+- PVE 垃圾回收任务
+```jinja2
+{{ machine_name }} {{ task_type }} - {{ task_status }}
+```
+```jinja2
+数据存储库：{{ datastore_name }}
+索引文件数量：{{ index_file_count }}
+清理垃圾数据量：{{ removed_garbage }}
+
+原始数据体积：{{ original_data_usage }}
+实际占用磁盘空间：{{ on_disk_usage }}
+去重因子：{{ deduplication_factor }}
+```
+
 ---
 
 
