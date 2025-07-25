@@ -245,7 +245,7 @@ NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下�
 
 #### PVE 消息通知模板举例
 
-- PVE 消息通知模板
+- PVE 备份任务
 ```jinja2
 {{machine_name}} 备份任务 - {{task_status}}
 ```
