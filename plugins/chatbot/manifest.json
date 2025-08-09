@@ -1,0 +1,188 @@
+{
+    "id": "chatbot",
+    "name": "企业微信智能聊天机器人",
+    "description": "基于大语言模型的智能聊天机器人，支持企业微信消息接收和自动回复",
+    "author": "NotifyHub",
+    "logo": "https://nanako-1253183981.cos.ap-guangzhou.myqcloud.com/project/notifyhub/coverimg/chatbot.jpg",
+    "version": "0.0.1",
+    "documentation": "",
+    "path": "/chatbot",
+    "configField": [
+        {
+            "fieldName": "base_url",
+            "fieldType": "string",
+            "label": "API基础URL",
+            "helpText": "大语言模型API的基础URL地址",
+            "defaultValue": "https://api.openai.com"
+        },
+        {
+            "fieldName": "api_key",
+            "fieldType": "string",
+            "label": "API密钥",
+            "helpText": "大语言模型API的访问密钥",
+            "defaultValue": ""
+        },
+        {
+            "fieldName": "model",
+            "fieldType": "string",
+            "label": "模型名称",
+            "helpText": "使用的大语言模型名称，如gpt-3.5-turbo、gpt-4等",
+            "defaultValue": ""
+        },
+        {
+            "fieldName": "proxy",
+            "fieldType": "string",
+            "label": "代理地址",
+            "helpText": "网络代理地址，格式如http://127.0.0.1:7890",
+            "defaultValue": "",
+            "required": false
+        },
+        {
+            "fieldName": "context_num",
+            "fieldType": "number",
+            "label": "上下文数量",
+            "helpText": "保留的对话上下文数量，用于维持对话连贯性",
+            "defaultValue": 10
+        },
+        {
+            "fieldName": "custom_prompt",
+            "fieldType": "text",
+            "label": "自定义提示词",
+            "helpText": "自定义的系统提示词，用于设定机器人的角色和行为",
+            "defaultValue": "",
+            "required": false
+        },
+        {
+            "fieldName": "qywx_base_url",
+            "fieldType": "string",
+            "label": "企业微信API地址",
+            "helpText": "企业微信API的基础URL地址，官方地址：https://qyapi.weixin.qq.com",
+            "defaultValue": "https://qyapi.weixin.qq.com"
+        },
+        {
+            "fieldName": "sCorpID",
+            "fieldType": "string",
+            "label": "企业微信CorpID",
+            "helpText": "企业微信的CorpID",
+            "defaultValue": ""
+        },
+        {
+            "fieldName": "sCorpsecret",
+            "fieldType": "string",
+            "label": "企业微信Secret",
+            "helpText": "企业微信应用的Secret",
+            "defaultValue": ""
+        },
+        {
+            "fieldName": "sAgentid",
+            "fieldType": "string",
+            "label": "企业微信AgentID",
+            "helpText": "企业微信应用的AgentID",
+            "defaultValue": ""
+        },
+        {
+            "fieldName": "sToken",
+            "fieldType": "string",
+            "label": "企业微信Token",
+            "helpText": "企业微信接收消息的Token",
+            "defaultValue": ""
+        },
+        {
+            "fieldName": "sEncodingAESKey",
+            "fieldType": "string",
+            "label": "企业微信EncodingAESKey",
+            "helpText": "企业微信消息加密的EncodingAESKey",
+            "defaultValue": ""
+        }
+    ],
+    "helpTextField": [
+        {
+            "fieldType": "title",
+            "value": "功能介绍"
+        },
+        {
+            "fieldType": "text",
+            "value": "这是一个基于大语言模型的智能聊天机器人插件，使用OpenAI兼容接口。支持企业微信消息接收和自动回复功能。"
+        },
+        {
+            "fieldType": "text",
+            "value": "机器人能够理解用户输入，保持对话上下文，并提供智能化的回复。"
+        },
+        {
+            "fieldType": "title",
+            "value": "配置步骤"
+        },
+        {
+            "fieldType": "text",
+            "value": "1. 配置大语言模型API参数（base_url、api_key、model）"
+        },
+        {
+            "fieldType": "text",
+            "value": "2. 配置企业微信应用参数（CorpID、Secret、AgentID等）"
+        },
+        {
+            "fieldType": "text",
+            "value": "3. 设置代理地址（如需要）"
+        },
+        {
+            "fieldType": "text",
+            "value": "4. 配置上下文数量和自定义提示词（可选）"
+        },
+        {
+            "fieldType": "title",
+            "value": "企业微信配置"
+        },
+        {
+            "fieldType": "text",
+            "value": "1. 登录企业微信管理后台"
+        },
+        {
+            "fieldType": "text",
+            "value": "2. 创建或选择应用，获取CorpID、Secret、AgentID"
+        },
+        {
+            "fieldType": "text",
+            "value": "3. 在应用设置中配置接收消息的URL和Token"
+        },
+        {
+            "fieldType": "text",
+            "value": "4. 设置接收消息的URL为："
+        },
+        {
+            "fieldType": "code",
+            "value": "{site_url}/api/plugins/chatbot/chat"
+        },
+        {
+            "fieldType": "title",
+            "value": "使用说明"
+        },
+        {
+            "fieldType": "text",
+            "value": "• 发送消息给企业微信应用，机器人会自动回复"
+        },
+        {
+            "fieldType": "text",
+            "value": "• 发送'重来'、'重置'、'重新开始'可清除对话上下文"
+        },
+        {
+            "fieldType": "text",
+            "value": "• 机器人会保持对话上下文，提供连贯的对话体验"
+        },
+        {
+            "fieldType": "title",
+            "value": "注意事项"
+        },
+        {
+            "fieldType": "text",
+            "value": "• 请确保API密钥和代理配置正确"
+        },
+        {
+            "fieldType": "text",
+            "value": "• 企业微信配置需要管理员权限"
+        },
+        {
+            "fieldType": "text",
+            "value": "• 上下文数量不宜设置过大，以免影响响应速度及增加tokens成本"
+        }
+    ]
+}
