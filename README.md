@@ -11,9 +11,7 @@
 ## 软件简介
 
 NotifyHub 是一款支持多种主流推送渠道的智能通知调度平台，适用于个人和团队的消息统一分发、自动化推送和渠道管理等场景。
-
 通过直观的 Web 界面，您可以灵活配置「通知渠道」（如 Telegram、Bark、企业微信等）与「通知通道」（消息路由），并借助「通知模板」功能，使用内置的 Emby、PVE、Watchtower 等模板，基于 Jinja2 模板语言构建个性化通知内容。
-
 此外，NotifyHub 提供开放接口，支持开发者自行开发第三方插件，从而扩展并丰富平台功能。
 
 ---
@@ -77,13 +75,25 @@ services:
 
 | 变量名         | 说明         | 示例                |
 | -------------- | ------------ | ------------------- |
-| LICENSE_KEY    | 授权码       | 必填             |
+| LICENSE_KEY    | 授权码       | （必填/试用可为空） |
 | NH_USER        | 登录用户名   | admin               |
 | NH_PASSWORD    | 登录密码     | 123456              |
 
 ---
 
 如需添加新渠道或有特殊需求，欢迎在社区或 Issue 区留言反馈！ 
+
+---
+
+## 插件系统
+
+NotifyHub 提供“插件系统”，支持内置插件与第三方插件，便于扩展新能力：
+
+- 插件目录：默认扫描并加载 `/data/plugins` 目录中的插件；每个插件需包含 `manifest.json`。
+- 路由挂载：插件内的 `APIRouter` 会被自动挂载到统一前缀 `/api/plugins` 下，例如 `APIRouter(prefix="/plugin_test")` → `/api/plugins/plugin_test/...`。
+- 能力复用：插件可通过后端提供的工具函数读取系统配置、获取渠道/通道列表，并复用统一的发送通知能力。
+
+详细规范与示例请参阅《[插件开发指南](https://github.com/htnanako/NotifyHub/blob/main/plugins/%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.md)》。
 
 ---
 
@@ -200,8 +210,9 @@ NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下�
 ```
 ```jinja2
 {%if progress_text%}{{progress_text}}
-{%endif%}{{container}}
-⤷{{transcoding_info}} {{bitrate}}Mbps
+{%endif%}{{container}} · {{video_stream_title}}
+⤷{{transcoding_info}} {{bitrate}}Mbps{%if current_cpu%}
+⤷CPU消耗：{{current_cpu}}%{%endif%}
 来自：{{server_name}}
 大小：{{size}}
 设备：{{client}} · {{device_name}}{%if genres%}
@@ -216,7 +227,8 @@ NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下�
 ```jinja2
 {%if progress_text%}{{progress_text}}
 {%endif%}{{container}} · {{video_stream_title}}
-⤷{{transcoding_info}} {{bitrate}}Mbps
+⤷{{transcoding_info}} {{bitrate}}Mbps{%if current_cpu%}
+⤷CPU消耗：{{current_cpu}}%{%endif%}
 来自：{{server_name}}
 大小：{{size}}
 设备：{{client}} · {{device_name}}{%if genres%}
@@ -293,7 +305,7 @@ NotifyHub 支持自定义“通知模板”，用于灵活配置不同场景下�
 ## 其他说明
 
 - **数据持久化**：请务必挂载 `/data` 目录，避免数据丢失。
-- **API 文档**：每个通知通道有“使用说明”按钮，自动生成推送 API 文档。
+- **API 文档**：每个通知通道页面有“使用说明”按钮，自动生成推送 API 文档。
 - **社区支持**：遇到问题可前往 [Telegram 社区](https://t.me/notifyhub_chat) 交流。
 
   
